@@ -43,9 +43,12 @@ class pickup:
     def draw(self,surface):
         self.rect = pygame.draw.rect(surface,self.color,(self.location[0],self.location[1],self.size,self.size))
 
-def pause():
+def pause(screen,screenWidth,screenHeight):
     paused = True
-    while paused:
+    gameOverText = pygame.freetype.Font("airstrikeacad.ttf", 86)
+    gameOverText.render_to(screen,(screenWidth/2-245,screenHeight/2-25),"Game OVER",(255, 255, 255))
+    pygame.display.update()
+    while paused: 
         for event in pygame.event.get():
             # only do something if the event is of type QUIT
             if event.type == pygame.QUIT:
@@ -58,7 +61,8 @@ def main():
     # initialize the pygame module
     pygame.init()
     # load and set the font
-    GAME_FONT = pygame.freetype.Font("Font/airstrikeacad.ttf", 64)
+    GAME_FONT = pygame.freetype.Font("airstrikeacad.ttf", 64)
+    scoreText = pygame.freetype.Font("airstrikeacad.ttf", 32)
     pygame.display.set_caption("Snake")
 
     # create a surface on screen that has the size of 240 x 180
@@ -71,9 +75,9 @@ def main():
     squareSize = 20
     cellList = []
     pickupList = []
-    testCell = cell(squareSize,squareSize,(71, 165, 74),(360,240))
-    test2Cell = cell(squareSize,squareSize,(47, 96, 49),(360,240),parent = testCell)
-    test3Cell = cell(squareSize, squareSize, (47, 96, 49), (480, 220), parent=test2Cell)
+    testCell = cell(squareSize,squareSize,(71, 165, 74),(350,230))
+    test2Cell = cell(squareSize,squareSize,(47, 96, 49),(0,250),parent = testCell)
+    test3Cell = cell(squareSize, squareSize, (47, 96, 49), (350, 0), parent=test2Cell)
     cellList.append(testCell)
     cellList.append(test2Cell)
     cellList.append(test3Cell)
@@ -116,15 +120,16 @@ def main():
         for items in cellList:
             items.draw(screen)
             if cellList[0].rect.colliderect(items) and items != cellList[0]:
-                running = pause()
+                running = pause(screen,screenWidth,screenHeight)
 
-        text_surface, rect = GAME_FONT.render(str(SCORE), (0, 0, 0))
-        GAME_FONT.render_to(screen, (20, 20), str(SCORE), (255, 255, 255))
 
+        GAME_FONT.render_to(screen, (120, 20), str(SCORE), (255, 255, 255))
+        scoreText.render_to(screen,(0,30),"SCORE:", (255, 255, 255))
+        
         pygame.display.update()
         screen.fill((0, 0, 0))
         countDown += 1 + random.randint(-1,2)
-        pygame.time.wait(100)
+        pygame.time.wait(80)
         # (if you import this as a module then nothing is executed)
 
 
