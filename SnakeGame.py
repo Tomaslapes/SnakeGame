@@ -125,7 +125,7 @@ def main():
 
         GAME_FONT.render_to(screen, (120, 20), str(SCORE), (255, 255, 255))
         scoreText.render_to(screen,(0,30),"SCORE:", (255, 255, 255))
-        
+
         pygame.display.update()
         screen.fill((0, 0, 0))
         countDown += 1 + random.randint(-1,2)
